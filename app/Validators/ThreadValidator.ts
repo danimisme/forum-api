@@ -42,5 +42,10 @@ export default class ThreadValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'title.required': 'Judul harus diisi',
+    'title.maxLength': 'Judul maksimal 255 karakter',
+    'content.required': 'Konten harus diisi',
+    'category_id.exists': 'Kategori tidak ditemukan',
+  }
 }

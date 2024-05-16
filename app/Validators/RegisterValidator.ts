@@ -43,5 +43,8 @@ export default class RegisterValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'email.unique': 'Email sudah terdaftar',
+    'password.confirmed': 'Password tidak cocok',
+  }
 }

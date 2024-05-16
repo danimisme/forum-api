@@ -38,5 +38,7 @@ export default class ReplyValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'content.required': 'Konten harus diisi',
+  }
 }
