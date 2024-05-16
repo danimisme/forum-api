@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Thread from 'App/Models/Thread'
 import SortThreadValidator from 'App/Validators/SortThreadValidator'
 import ThreadValidator from 'App/Validators/ThreadValidator'
@@ -79,9 +80,7 @@ export default class ThreadsController {
             const thread = await Thread.findOrFail(params.id)
 
             if (user?.id !== thread.userId) {
-                return response.status(401).json({
-                    message: "Unauthorized Access"
-                })
+                throw new UnauthorizedException("Cannont Update Other's Content", 401, "UNAUTHORIZED_ACCESS")
                 
             }
 
@@ -110,9 +109,7 @@ export default class ThreadsController {
             const user = await auth.user
             
             if (user?.id !== thread.userId) {
-                return response.status(401).json({
-                    message: "Unauthorized Access"
-                })
+                throw new UnauthorizedException("Cannont Delete Other's Content", 401, "UNAUTHORIZED_ACCESS")
                 
             }
 
