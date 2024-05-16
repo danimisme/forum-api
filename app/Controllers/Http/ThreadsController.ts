@@ -55,9 +55,18 @@ export default class ThreadsController {
     }
 
     //mengedit data thread
-    public async update({params, request, response}: HttpContextContract){
+    public async update({params, auth, request, response}: HttpContextContract){
         try {
+            const user = await auth.user
             const thread = await Thread.findOrFail(params.id)
+
+            if (user?.id !== thread.userId) {
+                return response.status(401).json({
+                    message: "Unauthorized Access"
+                })
+                
+            }
+
             const validateData = await request.validate(ThreadValidator)
 
             await thread.merge(validateData).save()
@@ -77,9 +86,18 @@ export default class ThreadsController {
     }
 
     //menghapus data thread
-    public async destroy({params, response}: HttpContextContract){
+    public async destroy({params, auth, response}: HttpContextContract){
         try {
             const thread = await Thread.firstOrFail(params.id)
+            const user = await auth.user
+            
+            if (user?.id !== thread.userId) {
+                return response.status(401).json({
+                    message: "Unauthorized Access"
+                })
+                
+            }
+
             await thread.delete()
             return response.status(200).json({
                 message: "Thread Deleted Successfully"
