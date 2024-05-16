@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Thread from 'App/Models/Thread'
 import ThreadValidator from 'App/Validators/ThreadValidator'
 
 export default class ThreadsController {
@@ -17,7 +18,23 @@ export default class ThreadsController {
                 message: error.message
             })            
         }
-
-        
     }
+
+    public async show({params, response}: HttpContextContract){
+        try {
+            const thread = await Thread.query()
+            .where("id",params.id)
+            .preload("category")
+            .preload("user").
+            firstOrFail()
+            return response.status(200).json({
+                data: thread,
+            })
+        } catch (error) {
+            return response.status(404).json({
+                message: "Content Not Found"
+            })
+        }
+    }
+
 }
