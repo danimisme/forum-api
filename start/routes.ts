@@ -36,4 +36,9 @@ Route.group(()=> {
 
   //menampilkan data threads berdasarkan id 
   Route.get("threads/:id", "ThreadsController.show")
+
+  //mengupdate thread
+  Route.put("/threads/:id", "ThreadsController.update").middleware("auth")
+
+
 }).prefix("/api")
