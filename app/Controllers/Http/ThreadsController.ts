@@ -54,6 +54,7 @@ export default class ThreadsController {
         }
     }
 
+    //mengedit data thread
     public async update({params, request, response}: HttpContextContract){
         try {
             const thread = await Thread.findOrFail(params.id)
@@ -70,6 +71,21 @@ export default class ThreadsController {
             
         } catch (error) {
             return response.status(404).json({
+                message: error.message
+            })
+        }
+    }
+
+    //menghapus data thread
+    public async destroy({params, response}: HttpContextContract){
+        try {
+            const thread = await Thread.firstOrFail(params.id)
+            await thread.delete()
+            return response.status(200).json({
+                message: "Thread Deleted Successfully"
+            })
+        } catch (error) {
+            return response.status(500).json({
                 message: error.message
             })
         }
