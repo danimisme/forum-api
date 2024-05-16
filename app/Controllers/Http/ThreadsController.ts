@@ -5,9 +5,11 @@ import ThreadValidator from 'App/Validators/ThreadValidator'
 export default class ThreadsController {
 
     //menampilkan seluruh data threads
-    public async index({response} : HttpContextContract){
+    public async index({request,response} : HttpContextContract){
         try {
-            const threads = await Thread.query().preload("category").preload("user").preload("replies")
+            const page = request.input("page", 1)
+            const perPage = request.input("perPage", 10)
+            const threads = await Thread.query().preload("category").preload("user").preload("replies").paginate(page, perPage)
             return response.status(200).json({
                 data: threads,
             })
