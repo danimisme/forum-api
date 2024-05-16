@@ -43,5 +43,8 @@ Route.group(()=> {
   //menghapus thread
   Route.delete("/threads/:id", "ThreadsController.destroy").middleware("auth")
 
+  //membuat replies
+  Route.post("/threads/:thread_id/replies","RepliesController.store").middleware("auth")
+
 
 }).prefix("/api")
