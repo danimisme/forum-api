@@ -9,7 +9,16 @@ export default class ThreadsController {
         try {
             const page = request.input("page", 1)
             const perPage = request.input("perPage", 10)
-            const threads = await Thread.query().preload("category").preload("user").preload("replies").paginate(page, perPage)
+            const userId = request.input("userId")
+            const categoryId = request.input("categoryId")
+
+            const threads = await Thread.query()
+            .if(userId, (query) => query.where("user_id", userId))
+            .if(categoryId, (query) => query.where("category_id", categoryId))
+            .preload("category")
+            .preload("user")
+            .preload("replies")
+            .paginate(page, perPage)
             return response.status(200).json({
                 data: threads,
             })
