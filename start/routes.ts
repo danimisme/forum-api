@@ -28,7 +28,12 @@ Route.group(()=> {
   Route.post("auth/register","AuthController.register" ) 
   Route.post("auth/login","AuthController.login" )
 
+  //menampilkan seluruh data threads
+  Route.get("/threads", "ThreadsController.index")
+
+  //membuat thread
   Route.post("/threads", "ThreadsController.store").middleware("auth")
+
   //menampilkan data threads berdasarkan id 
   Route.get("threads/:id", "ThreadsController.show")
 }).prefix("/api")
